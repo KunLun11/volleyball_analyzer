@@ -1,0 +1,11 @@
+[project]
+name = "volley-math-analytics"
+version = "0.1.0"
+description = "Analtyics volley service"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "aiokafka>=0.13.0",
+    "asynch>=0.3.1",
+    "pydantic-settings>=2.12.0",
+]

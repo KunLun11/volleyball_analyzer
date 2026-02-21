@@ -1,0 +1,24 @@
+[project]
+name = "tg-bot-volley"
+version = "0.1.0"
+description = "Volleyball Telegram Bot"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "aio-pika>=9.5.8",
+    "aiogram>=3.24.0",
+    "aiokafka>=0.13.0",
+    "httpx>=0.28.1",
+    "pydantic>=2.12.5",
+    "pydantic-settings>=2.12.0",
+    "structlog>=25.5.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.0",
+    "ty>=0.0.14",
+]
+
+[tool.uv]
+managed = true

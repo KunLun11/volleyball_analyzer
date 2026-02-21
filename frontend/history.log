@@ -1,0 +1,67 @@
+ 2026-02-15 12:26:41 ⌚  debian-12-11-bookworm-u2 in /mnt/e/denis/code/examples/volley_svelte_v2
+○ → npx sv create .
+
+┌  Welcome to the Svelte CLI! (v0.12.1)
+│
+◇  Which template would you like?
+│  SvelteKit minimal
+│
+◇  Add type checking with TypeScript?
+│  Yes, using TypeScript syntax
+│
+◇  What would you like to add to your project? (use arrow keys / space bar)
+│  eslint, tailwindcss, mcp
+│
+◇  mcp: Which client would you like to use?
+│  opencode
+│
+◇  mcp: What setup would you like to use?
+│  Local
+│
+◇  tailwindcss: Which plugins would you like to add?
+│  none
+│
+◆  Project created
+│
+◆  Successfully setup add-ons: eslint, mcp, tailwindcss
+│
+◇  Which package manager do you want to install dependencies with?
+│  npm
+│
+│  To skip prompts next time, run:
+●  npx sv create --template minimal --types ts --add eslint mcp="ide:opencode+setup:local" tailwindcss="plugins:none" --install npm .
+│
+◆  Successfully installed dependencies with npm
+│
+◇  What's next? ───────────────────────────────╮
+│                                              │
+│  📁 Project steps                            │
+│                                              │
+│    1: npm run dev -- --open                  │
+│                                              │
+│  To close the dev server, hit Ctrl-C         │
+│                                              │
+│  Stuck? Visit us at https://svelte.dev/chat  │
+│                                              │
+├──────────────────────────────────────────────╯
+│
+└  You're all set!
+
+
+ 2026-02-15 12:31:12 ⌚  debian-12-11-bookworm-u2 in /mnt/e/denis/code/examples/volley_svelte_v2
+○ → opencode mcp add
+
+┌  Add MCP server
+│
+◇  Enter MCP server name
+│  svelte
+│
+◇  Select MCP server type
+│  Local
+│
+◇  Enter command to run
+│  npx -y @sveltejs/mcp
+│
+◆  MCP server "svelte" added to /home/denis/.config/opencode/opencode.json
+│
+└  MCP server added successfully
