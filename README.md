@@ -1,15 +1,59 @@
 # Volleyball Analytics Platform
 
-Full-stack volleyball analytics service with real-time data processing and Telegram bot interface.
+Платформа для анализа волейбольных матчей с использованием искусственного интеллекта. Система обрабатывает статистику игр в реальном времени, предоставляет аналитику через веб-интерфейс и Telegram-бота.
 
-## Quick Start
+## Описание проекта
 
-### Prerequisites
+**Volleyball Analytics Platform** — это полнофункциональная аналитическая система для волейбольных команд, тренеров и аналитиков. Платформа решает следующие задачи:
+
+- **Сбор и обработка статистики** — автоматический сбор данных о матчах через Kafka и ClickHouse
+- **AI-аналитика** — использование LLM (Ollama/OpenAI) для генерации инсайтов и рекомендаций
+- **Telegram-бот** — удобный интерфейс для получения аналитики и уведомлений
+- **Веб-дашборд** — визуализация статистики и метрик в реальном времени
+- **Хранение данных** — надёжное хранение в PostgreSQL и ClickHouse
+
+### Проблема, которую решает проект
+
+Тренерам и аналитикам сложно оперативно получать и обрабатывать статистику матчей. Платформа автоматизирует этот процесс, предоставляя готовые инсайты и рекомендации через удобные интерфейсы.
+
+## Архитектура проекта
+
+```
+┌─────────────────┐     ┌─────────────────────────────────────────────────────────────┐
+│  Telegram Bot   │────▶│                     Backend (FastAPI)                       │
+│  (Python)       │◀──▶│                                                             │
+└─────────────────┘     │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+                        │  │  PostgreSQL │  │  ClickHouse │  │  LLM (Ollama/       │  │
+                        │  │  (данные)   │  │  (аналитика)│  │   OpenAI)           │  │
+                        │  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+                        └─────────────────────────────────────────────────────────────┘
+                                                │           │
+                                                ▼           ▼
+┌─────────────────┐     ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│   Frontend      │◀──▶│     Nginx       │  │  RabbitMQ       │  │  Kafka          │
+│   (SvelteKit)   │     │  (reverse proxy)│  │  (очереди)      │  │  (события)      │
+└─────────────────┘     └─────────────────┘  └─────────────────┘  └─────────────────┘
+```
+
+### Поток данных
+
+1. **Telegram-бот** принимает команды от пользователей и отправляет запросы в **Backend**
+2. **Backend** обрабатывает запросы, используя:
+   - **PostgreSQL** — для хранения основных данных
+   - **ClickHouse** — для аналитических запросов
+   - **LLM** — для генерации аналитических выводов
+3. **Kafka** обрабатывает потоковые данные о матчах
+4. **Kafka Consumer** записывает данные из Kafka в ClickHouse
+5. **Frontend** отображает аналитику через **Nginx**
+
+## Быстрый старт
+
+### Требования
 
 - Docker >= 20.10
 - Docker Compose >= 2.0
 
-### 1. Clone and Configure
+### 1. Клонирование и настройка
 
 ```bash
 git clone <repository-url>
@@ -17,43 +61,43 @@ cd volleyball-analyzer
 cp .env.example .env
 ```
 
-### 2. Configure environment variables
+### 2. Настройка переменных окружения
 
-Edit `.env` file and set required values:
+Отредактируйте файл `.env` и установите необходимые значения:
 
 ```ini
-# Telegram Bot (required)
+# Telegram Bot (обязательно)
 TELEGRAM_BOT_TOKEN=your-bot-token-here
 
-# LLM Configuration (choose one)
+# LLM Configuration (выберите один)
 LLM_TYPE=ollama
-# or
+# или
 LLM_TYPE=openai
 OPENAI_API_KEY=your-api-key-here
 ```
 
-### 3. Start all services
+### 3. Запуск всех сервисов
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
-Wait 1-2 minutes for services to initialize, then check status:
+Подождите 1-2 минуты для инициализации сервисов, затем проверьте статус:
 
 ```bash
-docker-compose ps
+docker compose ps
 ```
 
-### 4. Access services
+### 4. Доступ к сервисам
 
-| Service       | URL                    |
+| Сервис        | URL                    |
 |---------------|------------------------|
 | Frontend      | http://localhost:8080  |
 | Backend API   | http://localhost:8000  |
 | RabbitMQ UI   | http://localhost:15672 |
 | ClickHouse    | http://localhost:8123  |
 
-## Project Structure
+## Структура проекта
 
 ```
 volleyball-analyzer/
@@ -64,9 +108,9 @@ volleyball-analyzer/
 └── docker-compose.yml
 ```
 
-## Development
+## Разработка
 
-### Run backend locally
+### Запуск backend локально
 
 ```bash
 cd backend
@@ -75,7 +119,7 @@ source .venv/bin/activate
 uv run python -m uvicorn app.main:app --reload
 ```
 
-### Run frontend locally
+### Запуск frontend локально
 
 ```bash
 cd frontend
@@ -83,28 +127,28 @@ npm install
 npm run dev
 ```
 
-### View logs
+### Просмотр логов
 
 ```bash
-docker-compose logs -f backend
+docker compose logs -f backend
 ```
 
-### Stop services
+### Остановка сервисов
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
-## Troubleshooting
+## Устранение проблем
 
-**Services won't start:**
+**Сервисы не запускаются:**
 ```bash
-docker-compose logs backend
-docker-compose restart backend
+docker compose logs backend
+docker compose restart backend
 ```
 
-**Reset everything:**
+**Полный сброс:**
 ```bash
-docker-compose down -v
-docker-compose up -d
+docker compose down -v
+docker compose up -d
 ```
